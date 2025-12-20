@@ -1,0 +1,23 @@
+<div class="flex justify-content-center mt-5">
+    <p-card header="Crear Cuenta" [style]="{ width: '360px' }">
+        <div class="flex flex-column gap-3">
+            <div class="flex flex-column gap-2">
+                <label htmlFor="nombre">Nombre</label>
+                <input pInputText id="nombre"  placeholder="Ingresa tu nombre" />
+            </div>
+            
+            <div class="flex flex-column gap-2">
+                <label htmlFor="email">Correo Electrónico</label>
+                <input pInputText id="email"  placeholder="ejemplo@correo.com" />
+            </div>
+
+            <div class="flex flex-column gap-2">
+                <label htmlFor="password">Contraseña</label>
+                <p-password id="password"  placeholder="********"></p-password>
+            </div>
+
+            <p-button label="Registrarse"  styleClass="w-full"></p-button>
+        </div>
+    </p-card>
+</div>
+
