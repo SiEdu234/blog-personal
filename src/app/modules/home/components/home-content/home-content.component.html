@@ -1,18 +1,114 @@
-<p-toolbar>
-    <div class="p-toolbar-group-start">
-        <span class="text-xl font-bold">PracticaAngular</span>
-    </div>
-    <div class="p-toolbar-group-center">
-        <p-button label="Home" icon="pi pi-home" styleClass="p-button-outlined" routerLink="/"></p-button>
+<section class="hero">
+    <div class="hero-copy">
+        <h2>Blog del equipo</h2>
+        <div class="creators">
+            <span class="label">Creado por:</span>
+            <div class="creator-list">
+                <p-chip label="ALAN JOSUE DIAZ GRACIA"></p-chip>
+                <p-chip label="KLIUWHER ALDAHIR GRANDA JIMENEZ"></p-chip>
+                <p-chip label="RAFAEL EDUARDO VERA GARCIA"></p-chip>
+                <p-chip label="JORDAN VELEZ"></p-chip>
+            </div>
+        </div>
 
     </div>
-    
-</p-toolbar>
 
-<div class="p-3">
-</div>
+    <p-card class="stat-card" header="Estado del blog">
+        <div class="stat-grid">
+            <div class="stat-item">
+                <span class="stat-label">Entradas</span>
+                <span class="stat-value">{{ totalPublicaciones }}</span>
+                <p-tag *ngIf="autorSeleccionado" value="Autor filtrado" severity="info"></p-tag>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Ultima actualizacion</span>
+                <span class="stat-value small">{{ fechaUltimaPublicacion ? (fechaUltimaPublicacion | date:'medium') : 'Sin registros' }}</span>
+            </div>
+        </div>
+    </p-card>
+</section>
 
-<div>
-    <p>It works</p>
-    <h1>Holas holas holas</h1>
-</div>
+<p-card class="filter-card">
+    <div class="filter-grid">
+        <div class="filter-field">
+            <span class="label">Autor</span>
+            <p-dropdown [options]="opcionesAutor" optionLabel="label" optionValue="value" [(ngModel)]="autorSeleccionado" (onChange)="filtrarPublicaciones()" placeholder="Filtrar por autor" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+
+        <div class="filter-actions">
+            <p-button label="Limpiar" icon="pi pi-filter-slash" styleClass="p-button-text" (click)="autorSeleccionado = null; filtrarPublicaciones();"></p-button>
+            <p-button label="Refrescar" icon="pi pi-refresh" styleClass="p-button-text" (click)="cargarPublicaciones()"></p-button>
+        </div>
+    </div>
+</p-card>
+
+<p-card>
+    <p-table
+        [value]="publicaciones"
+        [tableStyle]="{'min-width': '60rem'}"
+        responsiveLayout="scroll"
+        [paginator]="true"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10]"
+    >
+        <ng-template pTemplate="caption">
+            <div class="table-caption">
+                <div>
+                    <span class="label">Entradas</span>
+                    <p class="hint">Gestiona tu blog con acciones rapidas y vista clara.</p>
+                </div>
+                <p-button label="Nuevo" icon="pi pi-plus" styleClass="p-button-sm" routerLink="/form"></p-button>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Fecha</th>
+                <th>Resumen</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-publicacion>
+            <tr>
+                <td class="title-cell">{{ publicacion.title }}</td>
+                <td>
+                    <p-tag [value]="publicacion.author" severity="info"></p-tag>
+                </td>
+                <td>{{ publicacion.date | date:'short' }}</td>
+                <td class="content-cell">{{ publicacion.content | slice:0:80 }}{{ publicacion.content.length > 80 ? '...' : '' }}</td>
+                <td>
+                    <div class="thumb" *ngIf="publicacion.image">
+                        <img [src]="publicacion.image" alt="Imagen" />
+                    </div>
+                    <span *ngIf="!publicacion.image" class="muted">Sin imagen</span>
+                </td>
+                <td class="actions">
+                    <p-button icon="pi pi-eye" styleClass="p-button-rounded p-button-secondary mr-2" (click)="abrirPublicacion(publicacion)"></p-button>
+                    <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-success mr-2" [routerLink]="['/form', publicacion.id]"></p-button>
+                    <p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger" (click)="eliminarPublicacion(publicacion.id)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6" class="empty-state">Aun no hay entradas. Crea la primera.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<p-dialog header="Entrada" [(visible)]="mostrarDialogo" [modal]="true" [style]="{width: '600px'}" (onHide)="cerrarDialogo()">
+    <ng-container *ngIf="publicacionMostrada">
+        <h3 class="dialog-title">{{ publicacionMostrada.title }}</h3>
+        <p class="muted">Autor: {{ publicacionMostrada.author }} | {{ publicacionMostrada.date | date:'medium' }}</p>
+        <div *ngIf="publicacionMostrada.image" class="dialog-image">
+            <img [src]="publicacionMostrada.image" alt="Imagen" />
+        </div>
+        <p class="dialog-content">{{ publicacionMostrada.content }}</p>
+    </ng-container>
+</p-dialog>

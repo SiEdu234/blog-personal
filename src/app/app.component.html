@@ -1,2 +1,19 @@
 
-    <router-outlet></router-outlet>
+<div class="app-shell">
+    <p-menubar [model]="items">
+        <ng-template pTemplate="start">
+            <div class="brand">
+                <i class="pi pi-prime brand-icon" aria-hidden="true"></i>
+                <span class="brand-title">Blog personal</span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="end">
+            <button pButton type="button" label="Ir a Home" class="p-button-text" [routerLink]="['/home']"></button>
+            <button pButton type="button" label="Nuevo post" icon="pi pi-plus" class="p-button-rounded" [routerLink]="['/form']"></button>
+        </ng-template>
+    </p-menubar>
+
+    <main class="page-shell">
+        <router-outlet></router-outlet>
+    </main>
+</div>

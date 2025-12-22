@@ -1,1 +1,50 @@
-<p>form-content works!</p>
+<div class="form-page">
+    <p-card class="form-card">
+        <ng-template pTemplate="header">
+            <div class="card-head">
+                <div>
+                    <h3>{{ modoEdicion ? 'Editar publicación' : 'Crear nueva publicación' }}</h3>
+                    <p class="hint">Todos los campos son obligatorios para guardar.</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <form [formGroup]="formularioPublicacion" (ngSubmit)="alEnviar()" class="form-grid">
+            <div class="field">
+                <label for="title">Titulo</label>
+                <input pInputText id="title" formControlName="title" placeholder="Ejemplo: Mi primer post" class="w-full" />
+                <small *ngIf="formularioPublicacion.get('title')?.invalid && formularioPublicacion.get('title')?.touched" class="p-error block">El titulo es obligatorio.</small>
+            </div>
+
+            <div class="field">
+                <label for="author">Autor</label>
+                <p-dropdown [options]="opcionesAutor" optionLabel="label" optionValue="value" formControlName="author" placeholder="Selecciona un autor" [style]="{'width':'100%'}" appendTo="body"></p-dropdown>
+                <small *ngIf="formularioPublicacion.get('author')?.invalid && formularioPublicacion.get('author')?.touched" class="p-error block">El autor es obligatorio.</small>
+            </div>
+
+            <div class="field">
+                <label for="content">Contenido</label>
+                <textarea pInputTextarea id="content" formControlName="content" rows="6" placeholder="Escribe tu historia..." class="w-full"></textarea>
+                <small *ngIf="formularioPublicacion.get('content')?.invalid && formularioPublicacion.get('content')?.touched" class="p-error block">El contenido es obligatorio.</small>
+            </div>
+
+            <div class="field">
+                <label for="imageUrl">Imagen (link o archivo)</label>
+                <div class="image-row">
+                    <input pInputText id="imageUrl" formControlName="imageUrl" placeholder="https://..." class="w-full" />
+                      <p-fileUpload mode="basic" name="file" chooseLabel="Subir" (onSelect)="alSeleccionarArchivo($event)" accept="image/*" auto="true"></p-fileUpload>
+                      <p-button label="Limpiar" icon="pi pi-times" styleClass="p-button-text" type="button" (click)="limpiarImagen()"></p-button>
+                </div>
+                <small class="hint">Usa un enlace o sube una imagen local (se guarda en base64).</small>
+                <div *ngIf="imagenBase64Seleccionada || formularioPublicacion.get('imageUrl')?.value" class="preview">
+                    <img [src]="imagenBase64Seleccionada || formularioPublicacion.get('imageUrl')?.value" alt="Vista previa" />
+                </div>
+            </div>
+
+            <div class="actions">
+                <p-button label="Cancelar" icon="pi pi-times" styleClass="p-button-text" (click)="alCancelar()" type="button"></p-button>
+                <p-button label="Guardar" icon="pi pi-check" type="submit" [disabled]="formularioPublicacion.invalid"></p-button>
+            </div>
+        </form>
+    </p-card>
+</div>

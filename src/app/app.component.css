@@ -1,0 +1,56 @@
+:host {
+	display: block;
+	min-height: 100vh;
+	background: linear-gradient(135deg, #f5f7fb 0%, #eef2ff 50%, #e8f7ff 100%);
+}
+
+.app-shell {
+	min-height: 100vh;
+	color: #1f2937;
+}
+
+.page-shell {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem 1.5rem 3rem;
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+.brand-icon {
+	font-size: 1.25rem;
+	color: #2563eb;
+	background: #e0e7ff;
+	padding: 0.45rem;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+}
+
+.brand-title {
+	font-weight: 700;
+	letter-spacing: 0.4px;
+}
+
+.p-menubar {
+	border: none;
+	border-radius: 18px;
+	margin: 1.25rem 1.5rem 0;
+	box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+	background: #ffffff;
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-content {
+	border-radius: 12px;
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-content:hover {
+	background: #eef2ff;
+}
+
+.p-button-text.p-button {
+	color: #1f2937;
+}
