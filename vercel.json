@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "builds": [{ "src": "dist/practica/browser/**/*", "use": "@vercel/static" }],
-  "routes": [{ "src": "/(.*)", "dest": "/$1" }],
-  "outputDirectory": "dist/practica/browser"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/practica/browser",
+  "routes": [{ "src": "/(.*)", "dest": "/$1" }]
 }
